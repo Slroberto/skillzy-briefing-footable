@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Briefing Footable | My Skillzy</title>
+  <style>
+    :root {
+      --bg: #121212;
+      --surface: #1E1E1E;
+      --surface-2: #252525;
+      --line: rgba(255,255,255,0.10);
+      --text: #FFFFFF;
+      --muted: #A9A9A9;
+      --muted-2: #6E6E6E;
+      --neon: #BBFF00;
+      --neon-soft: rgba(187,255,0,0.14);
+      --danger: #ff4d4d;
+      --radius-xl: 28px;
+      --radius-lg: 20px;
+      --radius-md: 14px;
+      --shadow: 0 30px 80px rgba(0,0,0,0.45);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 10% 0%, rgba(187,255,0,0.045), transparent 32%),
+        radial-gradient(circle at 90% 12%, rgba(255,255,255,0.08), transparent 26%),
+        linear-gradient(180deg, #101010 0%, var(--bg) 42%, #080808 100%);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    .page {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 32px 0 72px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 42px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      letter-spacing: -0.04em;
+      font-weight: 800;
+      font-size: 20px;
+    }
+
+    .brand-logo {
+      width: 260px;
+      max-width: 72vw;
+      height: auto;
+      display: block;
+    }
+
+    .brand-x {
+      color: var(--muted-2);
+      font-size: 22px;
+      font-weight: 300;
+      line-height: 1;
+    }
+
+    .partner-logo {
+      height: 46px;
+      width: auto;
+      max-width: 170px;
+      object-fit: contain;
+      display: block;
+    }
+
+    .partner-logo-placeholder {
+      height: 46px;
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      border: 1px dashed var(--line);
+      border-radius: 12px;
+      color: var(--muted-2);
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      border-radius: 13px;
+      background: var(--neon);
+      color: #101010;
+      display: grid;
+      place-items: center;
+      font-weight: 950;
+      box-shadow: 0 0 30px rgba(187,255,0,0.32);
+    }
+
+    .tag {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.04);
+      color: var(--muted);
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 28px;
+      align-items: stretch;
+      margin-bottom: 28px;
+    }
+
+    .hero-card,
+    .side-card,
+    .section {
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.025));
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .hero-card { padding: 42px; }
+
+    .hero-card:before {
+      content: "";
+      position: absolute;
+      inset: -1px;
+      background: radial-gradient(circle at 18% 0%, rgba(187,255,0,0.055), transparent 36%);
+      pointer-events: none;
+    }
+
+    .kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--neon);
+      background: var(--neon-soft);
+      border: 1px solid rgba(187,255,0,0.25);
+      padding: 9px 13px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 18px;
+      position: relative;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(36px, 6vw, 72px);
+      line-height: 0.92;
+      letter-spacing: -0.07em;
+      max-width: 760px;
+      position: relative;
+    }
+
+    .hero p {
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.65;
+      margin: 22px 0 0;
+      max-width: 720px;
+      position: relative;
+    }
+
+    .side-card {
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 360px;
+      background:
+        linear-gradient(135deg, rgba(187,255,0,0.035), transparent 34%),
+        linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.025));
+    }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .metric {
+      background: rgba(0,0,0,0.24);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      padding: 18px;
+      min-height: 112px;
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 34px;
+      letter-spacing: -0.05em;
+      color: var(--neon);
+      margin-bottom: 8px;
+    }
+
+    .metric span {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    .notice {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.55;
+      border-top: 1px solid var(--line);
+      padding-top: 18px;
+      margin-top: 22px;
+    }
+
+    .form-shell {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 28px;
+      align-items: start;
+    }
+
+    .nav {
+      position: sticky;
+      top: 24px;
+      border: 1px solid var(--line);
+      background: rgba(30,30,30,0.76);
+      backdrop-filter: blur(14px);
+      border-radius: var(--radius-xl);
+      padding: 18px;
+    }
+
+    .nav h3 {
+      margin: 0 0 12px;
+      font-size: 14px;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .nav a {
+      display: block;
+      text-decoration: none;
+      color: var(--text);
+      padding: 12px 13px;
+      border-radius: 14px;
+      font-size: 14px;
+      border: 1px solid transparent;
+    }
+
+    .nav a:hover {
+      background: rgba(255,255,255,0.05);
+      border-color: var(--line);
+    }
+
+    form {
+      display: grid;
+      gap: 20px;
+    }
+
+    .section {
+      padding: 28px;
+      scroll-margin-top: 28px;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 18px;
+      padding-bottom: 20px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .section-title h2 {
+      margin: 0 0 8px;
+      font-size: 28px;
+      line-height: 1;
+      letter-spacing: -0.045em;
+    }
+
+    .section-title p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.5;
+      font-size: 14px;
+    }
+
+    .badge {
+      flex: 0 0 auto;
+      width: 40px;
+      height: 40px;
+      border-radius: 14px;
+      background: var(--neon);
+      color: #101010;
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+    }
+
+    .field {
+      margin-bottom: 22px;
+    }
+
+    .field:last-child { margin-bottom: 0; }
+
+    label.question {
+      display: block;
+      font-size: 16px;
+      line-height: 1.45;
+      font-weight: 750;
+      margin-bottom: 12px;
+      letter-spacing: -0.015em;
+    }
+
+    .hint {
+      color: var(--muted-2);
+      font-size: 13px;
+      line-height: 1.45;
+      margin: -4px 0 12px;
+    }
+
+    .options {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .option {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-height: 50px;
+      padding: 13px 14px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.035);
+      color: var(--text);
+      cursor: pointer;
+      transition: 0.18s ease;
+      font-size: 14px;
+      line-height: 1.35;
+    }
+
+    .option:hover {
+      border-color: rgba(187,255,0,0.32);
+      background: rgba(187,255,0,0.06);
+    }
+
+    .option input {
+      accent-color: var(--neon);
+      width: 17px;
+      height: 17px;
+      flex: 0 0 auto;
+    }
+
+    textarea,
+    input[type="text"],
+    input[type="email"] {
+      width: 100%;
+      min-height: 52px;
+      border: 1px solid var(--line);
+      background: rgba(0,0,0,0.23);
+      color: var(--text);
+      border-radius: var(--radius-md);
+      padding: 15px 16px;
+      font: inherit;
+      outline: none;
+      resize: vertical;
+    }
+
+    textarea:focus,
+    input:focus {
+      border-color: rgba(187,255,0,0.55);
+      box-shadow: 0 0 0 4px rgba(187,255,0,0.08);
+    }
+
+    textarea { min-height: 110px; }
+
+    .priority-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .priority-card {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.035);
+      border-radius: var(--radius-lg);
+      padding: 16px;
+    }
+
+    .priority-card h4 {
+      margin: 0 0 10px;
+      color: var(--neon);
+      font-size: 14px;
+    }
+
+    .submit-card {
+      border: 1px solid rgba(187,255,0,0.26);
+      background: linear-gradient(135deg, rgba(187,255,0,0.18), rgba(255,255,255,0.035));
+      border-radius: var(--radius-xl);
+      padding: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      box-shadow: var(--shadow);
+    }
+
+    .submit-card h2 {
+      margin: 0 0 8px;
+      letter-spacing: -0.04em;
+      font-size: 26px;
+    }
+
+    .submit-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    button {
+      border: 0;
+      background: var(--neon);
+      color: #101010;
+      padding: 16px 24px;
+      border-radius: 999px;
+      font-weight: 900;
+      font-size: 15px;
+      cursor: pointer;
+      min-width: 180px;
+      box-shadow: 0 0 34px rgba(187,255,0,0.28);
+    }
+
+    .result {
+      display: none;
+      margin-top: 16px;
+      padding: 16px;
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(187,255,0,0.28);
+      background: rgba(187,255,0,0.08);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    .required { color: var(--neon); }
+
+    @media (max-width: 980px) {
+      .hero,
+      .form-shell { grid-template-columns: 1fr; }
+      .nav { position: relative; top: 0; }
+    }
+
+    @media (max-width: 720px) {
+      .page { width: min(100% - 20px, 1180px); padding-top: 18px; }
+      .topbar { align-items: flex-start; flex-direction: column; margin-bottom: 24px; }
+      .hero-card, .side-card, .section, .submit-card { padding: 22px; border-radius: 22px; }
+      .options, .priority-grid, .metric-grid { grid-template-columns: 1fr; }
+      .section-head, .submit-card { flex-direction: column; align-items: flex-start; }
+      button { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="topbar">
+      <div class="brand">
+        <svg class="brand-logo" aria-label="My Skillzy" role="img" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="80 420 1200 250">
+  <defs>
+    <style>
+      .st0 {
+        fill: url(#Gradiente_sem_nome_11);
+      }
+      .st1 {
+        fill: #fff;
+      }
+    </style>
+    <linearGradient id="Gradiente_sem_nome_11" data-name="Gradiente sem nome 11" x1="108.41" y1="506.65" x2="324.34" y2="506.65" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f0ff00"/>
+      <stop offset=".74" stop-color="#bf0"/>
+    </linearGradient>
+  </defs>
+  <g>
+    <path class="st0" d="M111.54,433.53h191.46c17.73,0,27.7,20.4,16.8,34.39l-84.79,108.81c-1.5,1.92-3.8,3.05-6.24,3.05h-30.66c-2.51,0-3.92-2.89-2.38-4.87l81.25-104.26c1.57-2.02.13-4.97-2.43-4.97h-143.44c-2.72,0-5.27-1.37-6.75-3.65l-15.43-23.67c-1.35-2.08.14-4.83,2.62-4.83Z"/>
+    <path class="st1" d="M298.39,646.11H106.93c-17.73,0-27.7-20.4-16.8-34.39l84.79-108.81c1.5-1.92,3.8-3.05,6.24-3.05h30.66c2.51,0,3.92,2.89,2.38,4.87l-81.25,104.26c-1.57,2.02-.13,4.97,2.43,4.97h143.44c2.72,0,5.27,1.37,6.75,3.65l15.43,23.67c1.35,2.08-.14,4.83-2.62,4.83Z"/>
+  </g>
+  <g>
+    <path class="st1" d="M662.76,522.59c.8-2.92,3.42-4.96,6.38-4.96h54.99c7.49,0,13.26-4.73,14.71-12.07l.64-3.1c.32-1.56-.87-3.03-2.47-3.03h-76.69c-11.42,0-20.73,7.54-23.14,18.74l-1.77,8.59c-1.14,5.26-.41,9.85,2.1,13.25,2.53,3.43,6.73,5.48,12.16,5.95l49.32,4.28c1.69.14,3.16.91,4.12,2.17.97,1.27,1.34,2.89,1.04,4.52-.52,3.15-3.24,5.43-6.46,5.43h-57.26c-7.46,0-13.29,4.74-14.84,12.07l-.64,3.1c-.32,1.56.87,3.03,2.47,3.03h76.69c11.46,0,20.71-7.53,23.01-18.73l1.76-8.69c1.09-5.27.32-9.87-2.2-13.29-2.55-3.45-6.77-5.55-12.19-6.07l-46.82-4.15c-1.62-.15-3.03-.91-3.97-2.15-.97-1.28-1.34-2.9-1.03-4.59.02-.1.04-.2.07-.29Z"/>
+    <path class="st1" d="M880.22,499.36h-10.46l-17.32-.07c-1.4,0-2.33,1.5-1.63,2.71,2.02,3.51,2.83,7.63,2.15,11.8,0,.04-10.92,52.91-13.3,64.47-.24,1.14.64,2.21,1.81,2.21h10.46l17.32.07c1.4,0,2.33-1.5,1.63-2.71-2.02-3.51-2.83-7.63-2.15-11.8,0-.04,10.92-52.91,13.3-64.47.24-1.14-.64-2.21-1.81-2.21Z"/>
+    <path class="st1" d="M1151.34,498.44h-89.23c-1.62,0-3.02,1.13-3.36,2.72l-1.72,8.07c-.33,1.64-.45,3.93.85,5.51,1.29,1.57,3.52,1.9,5.17,1.9h43.36c1.29,0,2.56.61,3.2,1.73.98,1.71.37,3.79-1.23,4.74l-57.74,34.51c-2.63,1.57-4.48,4.17-5.11,7.17l-2.55,12.14c-.29,1.36.75,2.63,2.14,2.63h93.5c1.62,0,3.02-1.13,3.36-2.72l1.72-8.07c.33-1.64.45-3.93-.85-5.51-1.29-1.57-3.52-1.9-5.17-1.9h-46.19c-1.87,0-3.46-1.48-3.49-3.47-.02-1.27.74-2.44,1.83-3.09l57.01-34c3.09-1.84,5.27-4.9,6.01-8.42l2.02-9.6c.47-2.24-1.24-4.35-3.53-4.35Z"/>
+    <path class="st1" d="M1265.03,500.2h-22.33c-.77,0-1.5.3-2.05.82l-31.23,29.92c-.66.63-1.52.97-2.41.97-.78,0-1.57-.26-2.28-.85-.48-.4-.81-.95-1.03-1.53l-10.56-27.43c-.44-1.15-1.54-1.9-2.77-1.9h-12.95l-11.48-.05c-1.6,0-2.41,1.93-1.27,3.05,2.93,2.89,5.33,6.33,6.81,9.95l15.03,37.24c.47,1.02,1.01,2.48,1.25,4.31.32,2.43-.02,4.43-.34,5.68l-3.56,17.14c-.39,1.89,1.05,3.67,2.99,3.67h20.26c1.44,0,2.69-1.01,2.99-2.42l4.09-19.4c.2-1.1.58-2.56,1.35-4.13,1.17-2.38,2.72-3.95,3.77-4.85l47.75-45.07c1.95-1.84.65-5.13-2.04-5.13Z"/>
+    <path class="st1" d="M839.52,502.34c1.03-1.1.25-2.91-1.26-2.91h-23.1c-.48,0-.93.2-1.26.55l-28.4,30.32c-.66.7-1.58,1.1-2.54,1.1h-4.81c-1.05,0-2.04-.47-2.7-1.29-.66-.81-.92-1.88-.71-2.91l5.79-27.77h-12.72l-17.2-.07c-1.45,0-2.41,1.56-1.69,2.82,1.97,3.49,2.76,7.57,2.09,11.69,0,.04-10.03,48.59-12.96,62.81-.41,2,1.12,3.87,3.16,3.87h19.9c1.53,0,2.85-1.08,3.16-2.57l5.06-24.6c.33-1.62,1.76-2.78,3.41-2.78h10.85c1.24,0,2.38.66,3.01,1.73l15.98,27.37c.31.53.88.86,1.49.86h22.78c1.33,0,2.17-1.45,1.49-2.6l-21.59-36.96c-.78-1.33-.59-3.01.46-4.14l32.31-34.52Z"/>
+    <path class="st1" d="M958.49,562.35h-41.05c-1.05,0-2.04-.47-2.7-1.29-.66-.81-.92-1.88-.71-2.91l11.75-56.47c.24-1.16-.65-2.26-1.84-2.26h-10.41l-16.91-.07c-1.6,0-2.63,1.7-1.87,3.1,1.89,3.5,2.63,7.6,1.98,11.76,0,.06-.02.12-.03.18l-2.52,11.96c-.03.13-.06.26-.1.39l-7.07,34.61c-1.25,5.81-.47,10.66,2.25,14.02,2.74,3.38,7.35,5.17,13.34,5.17h52.86c.89,0,1.65-.62,1.83-1.49l3.03-14.45c.24-1.17-.64-2.26-1.83-2.26Z"/>
+    <path class="st1" d="M1036.79,562.35h-41.05c-1.05,0-2.04-.47-2.7-1.29-.66-.81-.92-1.88-.71-2.91l11.75-56.47c.24-1.16-.65-2.26-1.84-2.26h-10.41l-16.91-.07c-1.6,0-2.63,1.7-1.87,3.1,1.89,3.5,2.63,7.6,1.98,11.76,0,.06-.02.12-.03.18l-2.52,11.96c-.03.13-.06.26-.1.39l-7.07,34.61c-1.25,5.81-.47,10.66,2.25,14.02,2.74,3.38,7.35,5.17,13.34,5.17h52.86c.89,0,1.65-.62,1.83-1.49l3.03-14.45c.24-1.17-.64-2.26-1.83-2.26Z"/>
+    <path class="st1" d="M498.12,500.01h-34.76c-2.2,0-4.26,1.12-5.45,2.98l-29.53,46.01c-.65,1.01-1.76,1.6-2.93,1.6-.18,0-.37-.01-.56-.04-1.37-.22-2.48-1.23-2.82-2.58l-11.04-43.11c-.73-2.86-3.31-4.87-6.27-4.87h-37.08c-2.1,0-3.5,2.17-2.62,4.08,1.47,3.18,2,6.75,1.41,10.37,0,.04-9.97,48.34-12.94,62.7-.42,2.06,1.15,3.98,3.25,3.98h19.71c1.57,0,2.93-1.11,3.25-2.65l7.56-36.61c.33-1.61,1.74-2.76,3.38-2.78h.04c1.58-.02,2.97,1.05,3.36,2.58l8.8,34.18c.8,3.1,3.6,5.27,6.8,5.27h19.71c2.39,0,4.62-1.22,5.91-3.23l26.35-41.1c.66-1.02,1.78-1.6,2.93-1.6.58,0,1.17.15,1.72.45,1.35.76,1.97,2.39,1.65,3.91l-7.82,37.57c-.43,2.06,1.14,3.99,3.25,3.99h8.64l15.61.06c2.11,0,3.52-2.18,2.63-4.09-1.49-3.19-2.02-6.79-1.43-10.42,0-.04,9.79-47.45,12.85-62.29.47-2.27-1.26-4.39-3.58-4.39Z"/>
+    <path class="st1" d="M611.56,500.2h-22.33c-.77,0-1.5.3-2.05.82l-31.23,29.92c-.66.63-1.52.97-2.41.97-.78,0-1.57-.26-2.28-.85-.48-.4-.81-.95-1.03-1.53l-10.56-27.43c-.44-1.15-1.54-1.9-2.77-1.9h-12.95l-11.48-.05c-1.6,0-2.41,1.93-1.27,3.05,2.93,2.89,5.33,6.33,6.81,9.95l15.03,37.24c.47,1.02,1.01,2.48,1.25,4.31.32,2.43-.02,4.43-.34,5.68l-3.56,17.14c-.39,1.89,1.05,3.67,2.99,3.67h20.26c1.44,0,2.69-1.01,2.99-2.42l4.09-19.4c.2-1.1.58-2.56,1.35-4.13,1.17-2.38,2.72-3.95,3.77-4.85l47.75-45.07c1.95-1.84.65-5.13-2.04-5.13Z"/>
+  </g>
+</svg>
+        <span class="brand-x" aria-hidden="true">×</span>
+        <img class="partner-logo" src="assets/footable-logo.png" alt="Footable" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'partner-logo-placeholder',textContent:'Logo Footable aqui'}))" />
+      </div>
+      <div class="tag">Liga Nacional &amp; Copa do Mundo · Footable</div>
+    </header>
+
+    <section class="hero">
+      <div class="hero-card">
+        <div class="kicker">Levantamento estratégico · Footable</div>
+        <h1>Antes de construir o sistema oficial do Footable, precisamos entender a operação real.</h1>
+        <p>
+          Este formulário serve para mapear o que a Liga Nacional de Footable do Brasil e a Copa do Mundo de Footable precisam em um sistema de competição, liga, ranking e operação de eventos. O prazo é curto: a primeira etapa é levantar o cenário completo para separar o essencial desta primeira entrega do que pode vir depois.
+        </p>
+      </div>
+
+      <aside class="side-card">
+        <div class="metric-grid">
+          <div class="metric"><strong>01</strong><span>Entender o processo atual</span></div>
+          <div class="metric"><strong>02</strong><span>Mapear requisitos completos</span></div>
+          <div class="metric"><strong>03</strong><span>Definir o que não pode faltar</span></div>
+          <div class="metric"><strong>04</strong><span>Dimensionar equipe, tecnologia e prazo</span></div>
+        </div>
+        <div class="notice">
+          O sistema será obrigatoriamente conectado ao ecossistema My Skillzy. Como o prazo é curto, as respostas abaixo vão direto para decidir o mínimo necessário para atender a Liga Nacional e a Copa do Mundo nesta primeira entrega.
+        </div>
+      </aside>
+    </section>
+
+    <div class="form-shell">
+      <nav class="nav">
+        <h3>Seções</h3>
+        <a href="#dados">Dados iniciais</a>
+        <a href="#processo">Processo atual</a>
+        <a href="#liga">Liga e ranking</a>
+        <a href="#inscricoes">Inscrições e atletas</a>
+        <a href="#categorias">Categorias</a>
+        <a href="#chaveamento">Chaveamento</a>
+        <a href="#pontuacao">Pontuação e operação</a>
+        <a href="#integracao">Integração My Skillzy</a>
+        <a href="#prioridade">Prioridades</a>
+      </nav>
+
+      <form id="briefingForm">
+        <section class="section" id="dados">
+          <div class="section-head">
+            <div class="section-title">
+              <h2>Dados iniciais</h2>
+              <p>Identificação de quem está respondendo.</p>
+            </div>
+            <div class="badge">1</div>
+          </div>
+
+          <div class="field">
+            <label class="question" for="nome">Nome <span class="required">*</span></label>
+            <input type="text" id="nome" name="nome" required placeholder="Digite seu nome" />
+          </div>
+
+          <div class="field">
+            <label class="question" for="funcao">Função na operação</label>
+            <input type="text" id="funcao" name="funcao" placeholder="Ex: organizador, federação, staff, atleta, diretoria" />
+          </div>
+
+          <div class="field">
+            <label class="question" for="email">E-mail <span class="required">*</span></label>
+            <input type="email" id="email" name="email" required placeholder="seu@email.com" />
+          </div>
+
+          <div class="field">
+            <label class="question" for="telefone">Telefone ou WhatsApp</label>
+            <input type="text" id="telefone" name="telefone" placeholder="Ex: (11) 99999-9999" />
+          </div>
+
+          <div class="field">
+            <label class="question">Qual competição você representa?</label>
+            <div class="options">
+              <label class="option"><input type="radio" name="competicao" value="Liga Nacional de Footable" /> Liga Nacional de Footable</label>
+              <label class="option"><input type="radio" name="competicao" value="Copa do Mundo de Footable" /> Copa do Mundo de Footable</label>
+              <label class="option"><input type="radio" name="competicao" value="Federação estadual/regional" /> Federação estadual/regional</label>
+              <label class="option"><input type="radio" name="competicao" value="Outra" /> Outra</label>
+            </div>
+            <input type="text" name="competicaoOutro" placeholder="Se for outra, qual?" style="margin-top:10px" />
+          </div>
+        </section>
+
+        <section class="section" id="processo">
+          <div class="section-head">
+            <div class="section-title">
+              <h2>Processo atual</h2>
+              <p>Como tudo funciona hoje, antes de falar em funcionalidades.</p>
+            </div>
+            <div class="badge">2</div>
+          </div>
+
+          <div class="field">
+            <label class="question">Hoje, quais ferramentas vocês usam para organizar uma etapa?</label>
+            <div class="options">
+              <label class="option"><input type="checkbox" name="ferramentas" value="Planilha" /> Planilha</label>
+              <label class="option"><input type="checkbox" name="ferramentas" value="WhatsApp" /> WhatsApp</label>
+              <label class="option"><input type="checkbox" name="ferramentas" value="App de chaveamento" /> App de chaveamento</label>
+              <label class="option"><input type="checkbox" name="ferramentas" value="Site de inscrição" /> Site de inscrição</label>
+              <label class="option"><input type="checkbox" name="ferramentas" value="Sistema da federação" /> Sistema da federação</label>
+              <label class="option"><input type="checkbox" name="ferramentas" value="Controle manual" /> Controle manual</label>
+            </div>
+            <input type="text" name="ferramentasOutro" placeholder="Outra ferramenta (especifique)" style="margin-top:10px" />
+          </div>
+
+          <div class="field">
+            <label class="question" for="ferramentasDetalhe">Quais são essas ferramentas, uma por uma?</label>
+            <textarea id="ferramentasDetalhe" name="ferramentasDetalhe" placeholder="Ex: usamos tal app para chave, planilha para inscrição, WhatsApp para confirmação..."></textarea>
+          </div>
+
+          <div class="field">
+            <label class="question">O que mais gera problema hoje?</label>
+            <div class="options">
+              <label class="option"><input type="checkbox" name="problemas" value="Inscrição" /> Inscrição</label>
+              <label class="option"><input type="checkbox" name="problemas" value="Categoria errada" /> Categoria errada</label>
+              <label class="option"><input type="checkbox" name="problemas" value="Chaveamento" /> Chaveamento</label>
+              <label class="option"><input type="checkbox" name="problemas" value="Pontuação" /> Pontuação</label>
+              <label class="option"><input type="checkbox" name="problemas" value="Ranking" /> Ranking</label>
+              <label class="option"><input type="checkbox" name="problemas" value="Comunicação com atletas" /> Comunicação com atletas</label>
+              <label class="option"><input type="checkbox" name="problemas" value="Atraso no evento" /> Atraso no evento</label>
+              <label class="option"><input type="checkbox" name="problemas" value="Erro humano" /> Erro humano</label>
+            </div>
+            <input type="text" name="problemasOutro" placeholder="Outro problema (especifique)" style="margin-top:10px" />
+          </div>
+        </section>
+
+        <section class="section" id="liga">
+          <div class="section-head">
+            <div class="section-title">
+              <h2>Liga e ranking</h2>
+              <p>Como a competição se conecta com ranking nacional e mundial.</p>
+            </div>
+            <div class="badge">3</div>
+          </div>
+
+          <div class="field">
+            <label class="question">A Liga Nacional de Footable precisa nascer no sistema desde a primeira versão?</label>
+            <div class="options">
+              <label class="option"><input type="radio" name="ligaMvp" value="Obrigatório" /> Obrigatório no lançamento</label>
+              <label class="option"><input type="radio" name="ligaMvp" value="Pode ser fase 2" /> Pode ser fase 2</label>
+              <label class="option"><input type="radio" name="ligaMvp" value="Controle simples primeiro" /> Controle simples primeiro</label>
+              <label class="option"><input type="radio" name="ligaMvp" value="Não sei" /> Não sei responder</label>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="question">Como o ranking deve pontuar?</label>
+            <div class="options">
+              <label class="option"><input type="checkbox" name="rankingPontua" value="Colocação" /> Por colocação</label>
+              <label class="option"><input type="checkbox" name="rankingPontua" value="Presença" /> Por presença</label>
+              <label class="option"><input type="checkbox" name="rankingPontua" value="Categoria" /> Por categoria</label>
+              <label class="option"><input type="checkbox" name="rankingPontua" value="Peso da etapa" /> Por peso da etapa</label>
+              <label class="option"><input type="checkbox" name="rankingPontua" value="Temporada" /> Por temporada</label>
+              <label class="option"><input type="checkbox" name="rankingPontua" value="Ainda precisa definir" /> Ainda precisa definir</label>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="question" for="rankingCopa">Como o ranking se conecta com vaga ou classificação para a Copa do Mundo de Footable?</label>
+            <textarea id="rankingCopa" name="rankingCopa" placeholder="Descreva a regra atual ou a regra desejada."></textarea>
+          </div>
+        </section>
+
+        <section class="section" id="inscricoes">
+          <div class="section-head">
+            <div class="section-title">
+              <h2>Inscrições e atletas</h2>
+              <p>Base de atletas, credenciamento, inscrição e pagamento.</p>
+            </div>
+            <div class="badge">4</div>
+          </div>
+
+          <div class="field">
+            <label class="question">A inscrição precisa acontecer dentro do sistema no lançamento?</label>
+            <div class="options">
+              <label class="option"><input type="radio" name="inscricaoMvp" value="Obrigatório" /> Obrigatório no lançamento</label>
+              <label class="option"><input type="radio" name="inscricaoMvp" value="Importar planilha" /> Pode começar importando planilha</label>
+              <label class="option"><input type="radio" name="inscricaoMvp" value="Fase futura" /> Pode ficar para fase futura</label>
+              <label class="option"><input type="radio" name="inscricaoMvp" value="Não sei" /> Não sei responder</label>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="question">O pagamento da inscrição precisa entrar no sistema agora?</label>
+            <div class="options">
+              <label class="option"><input type="radio" name="pagamentoInscricao" value="Obrigatório" /> Obrigatório no lançamento</label>
+              <label class="option"><input type="radio" name="pagamentoInscricao" value="Pode ser externo" /> Pode continuar fora no início</label>
+              <label class="option"><input type="radio" name="pagamentoInscricao" value="Fase futura" /> Fase futura</label>
+              <label class="option"><input type="radio" name="pagamentoInscricao" value="Não sei" /> Não sei responder</label>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="question" for="baseAtletas">Vocês já têm base de atletas credenciados? Em qual formato?</label>
+            <textarea id="baseAtletas" name="baseAtletas" placeholder="Ex: Excel, Google Sheets, sistema da federação, PDF, cadastro manual..."></textarea>
+          </div>
+        </section>
+
+        <section class="section" id="categorias">
+          <div class="section-head">
+            <div class="section-title">
+              <h2>Categorias</h2>
+              <p>Regras oficiais, nivelamento e bloqueio de categoria.</p>
+            </div>
+            <div class="badge">5</div>
+          </div>
+
+          <div class="field">
+            <label class="question">O sistema precisa impedir inscrição em categoria errada automaticamente?</label>
+            <div class="options">
+              <label class="option"><input type="radio" name="bloqueioCategoria" value="Automático obrigatório" /> Sim, automático no lançamento</label>
+              <label class="option"><input type="radio" name="bloqueioCategoria" value="Validação manual" /> Pode ser validação manual no início</label>
+              <label class="option"><input type="radio" name="bloqueioCategoria" value="Fase futura" /> Pode ficar para fase futura</label>
+              <label class="option"><input type="radio" name="bloqueioCategoria" value="Não sei" /> Não sei responder</label>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="question" for="categoriasOficiais">Quais categorias oficiais precisam existir desde o lançamento?</label>
+            <textarea id="categoriasOficiais" name="categoriasOficiais" placeholder="Liste as categorias oficiais."></textarea>
+          </div>
+        </section>
+
+        <section class="section" id="chaveamento">
+          <div class="section-head">
+            <div class="section-title">
+              <h2>Chaveamento</h2>
+              <p>Formatos de disputa e regras de montagem.</p>
+            </div>
+            <div class="badge">6</div>
+          </div>
+
+          <div class="field">
+            <label class="question">Quais formatos precisam existir?</label>
+            <div class="options">
+              <label class="option"><input type="checkbox" name="formatos" value="Mata-mata" /> Mata-mata</label>
+              <label class="option"><input type="checkbox" name="formatos" value="Grupos" /> Grupos</label>
+              <label class="option"><input type="checkbox" name="formatos" value="Repescagem" /> Repescagem</label>
+              <label class="option"><input type="checkbox" name="formatos" value="Todos contra todos" /> Todos contra todos</label>
+              <label class="option"><input type="checkbox" name="formatos" value="Dupla eliminação" /> Dupla eliminação</label>
+              <label class="option"><input type="checkbox" name="formatos" value="Formato simples no início" /> Formato simples no início</label>
+            </div>
+            <input type="text" name="formatosOutro" placeholder="Outro formato (especifique)" style="margin-top:10px" />
+          </div>
+
+          <div class="field">
+            <label class="question">As regras de chaveamento já estão documentadas?</label>
+            <div class="options">
+              <label class="option"><input type="radio" name="regrasDocumentadas" value="Sim" /> Sim</label>
+              <label class="option"><input type="radio" name="regrasDocumentadas" value="Parcialmente" /> Parcialmente</label>
+              <label class="option"><input type="radio" name="regrasDocumentadas" value="Não" /> Não</label>
+              <label class="option"><input type="radio" name="regrasDocumentadas" value="Não sei" /> Não sei responder</label>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="pontuacao">
+          <div class="section-head">
+            <div class="section-title">
+              <h2>Pontuação e operação</h2>
+              <p>Dia do evento, placar, resultado, correção e acesso.</p>
+            </div>
+            <div class="badge">7</div>
+          </div>
+
+          <div class="field">
+            <label class="question">Pontuação em tempo real é obrigatória no lançamento?</label>
+            <div class="options">
+              <label class="option"><input type="radio" name="placarTempoReal" value="Obrigatório" /> Obrigatório no lançamento</label>
+              <label class="option"><input type="radio" name="placarTempoReal" value="Resultado ao final" /> Pode lançar resultado ao final</label>
+              <label class="option"><input type="radio" name="placarTempoReal" value="Fase futura" /> Fase futura</label>
+              <label class="option"><input type="radio" name="placarTempoReal" value="Não sei" /> Não sei responder</label>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="question">Quem precisa acessar no dia do evento?</label>
+            <div class="options">
+              <label class="option"><input type="checkbox" name="perfis" value="Organizador" /> Organizador</label>
+              <label class="option"><input type="checkbox" name="perfis" value="Árbitro" /> Árbitro</label>
+              <label class="option"><input type="checkbox" name="perfis" value="Staff" /> Staff</label>
+              <label class="option"><input type="checkbox" name="perfis" value="Atleta" /> Atleta</label>
+              <label class="option"><input type="checkbox" name="perfis" value="Federação" /> Federação</label>
+              <label class="option"><input type="checkbox" name="perfis" value="Público" /> Público</label>
+            </div>
+            <input type="text" name="perfisOutro" placeholder="Outro perfil (especifique)" style="margin-top:10px" />
+          </div>
+
+          <div class="field">
+            <label class="question">O público precisa acompanhar chave, placar e ranking ao vivo?</label>
+            <div class="options">
+              <label class="option"><input type="radio" name="publicoAoVivo" value="Sim" /> Sim, desde o lançamento</label>
+              <label class="option"><input type="radio" name="publicoAoVivo" value="Parcial" /> Parcialmente</label>
+              <label class="option"><input type="radio" name="publicoAoVivo" value="Não no MVP" /> Não no MVP</label>
+              <label class="option"><input type="radio" name="publicoAoVivo" value="Não sei" /> Não sei responder</label>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="integracao">
+          <div class="section-head">
+            <div class="section-title">
+              <h2>Integração com My Skillzy</h2>
+              <p>Esta integração é premissa obrigatória do ecossistema.</p>
+            </div>
+            <div class="badge">8</div>
+          </div>
+
+          <div class="field">
+            <label class="question">Quais dados precisam conversar com o My Skillzy?</label>
+            <div class="options">
+              <label class="option"><input type="checkbox" name="dadosSkillzy" value="Atleta" /> Atleta</label>
+              <label class="option"><input type="checkbox" name="dadosSkillzy" value="Aluno" /> Aluno</label>
+              <label class="option"><input type="checkbox" name="dadosSkillzy" value="Professor" /> Professor</label>
+              <label class="option"><input type="checkbox" name="dadosSkillzy" value="Escola" /> Escola</label>
+              <label class="option"><input type="checkbox" name="dadosSkillzy" value="Categoria" /> Categoria</label>
+              <label class="option"><input type="checkbox" name="dadosSkillzy" value="Avaliação técnica" /> Avaliação técnica</label>
+              <label class="option"><input type="checkbox" name="dadosSkillzy" value="Ranking" /> Ranking</label>
+              <label class="option"><input type="checkbox" name="dadosSkillzy" value="Histórico competitivo" /> Histórico competitivo</label>
+              <label class="option"><input type="checkbox" name="dadosSkillzy" value="Pagamentos" /> Pagamentos</label>
+              <label class="option"><input type="checkbox" name="dadosSkillzy" value="Inscrições" /> Inscrições</label>
+            </div>
+            <input type="text" name="dadosSkillzyOutro" placeholder="Outro dado (especifique)" style="margin-top:10px" />
+          </div>
+
+          <div class="field">
+            <label class="question" for="integracaoObs">Existe algum dado ou regra de integração que não pode faltar?</label>
+            <textarea id="integracaoObs" name="integracaoObs" placeholder="Descreva algo específico que precise conversar com o My Skillzy."></textarea>
+          </div>
+        </section>
+
+        <section class="section" id="prioridade">
+          <div class="section-head">
+            <div class="section-title">
+              <h2>Prioridades do MVP</h2>
+              <p>Separar o essencial do desejável para viabilizar a primeira entrega.</p>
+            </div>
+            <div class="badge">9</div>
+          </div>
+
+          <div class="priority-grid">
+            <div class="priority-card">
+              <h4>Não pode faltar</h4>
+              <textarea name="naoPodeFaltar" placeholder="Liste o que é obrigatório."></textarea>
+            </div>
+            <div class="priority-card">
+              <h4>Pode entrar depois</h4>
+              <textarea name="podeDepois" placeholder="Liste o que pode ser fase 2."></textarea>
+            </div>
+            <div class="priority-card">
+              <h4>Dúvidas abertas</h4>
+              <textarea name="duvidas" placeholder="Liste pontos que ainda precisam ser decididos."></textarea>
+            </div>
+          </div>
+
+          <div class="field" style="margin-top:22px;">
+            <label class="question">Qual cenário de evento o sistema precisa suportar no início?</label>
+            <div class="options">
+              <label class="option"><input type="radio" name="escalaInicial" value="Etapa normal" /> Etapa normal</label>
+              <label class="option"><input type="radio" name="escalaInicial" value="Etapa grande" /> Etapa grande</label>
+              <label class="option"><input type="radio" name="escalaInicial" value="Ambos" /> Ambos desde o início</label>
+              <label class="option"><input type="radio" name="escalaInicial" value="Não sei" /> Não sei responder</label>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="question" for="prazoEvento">Qual a data prevista do evento ou o prazo limite para o sistema estar pronto?</label>
+            <input type="text" id="prazoEvento" name="prazoEvento" placeholder="Ex: 15/09/2026 ou 'até setembro'" />
+          </div>
+
+          <div class="field">
+            <label class="question" for="escalaAtletas">Quantos atletas ou equipes são esperados nesta edição?</label>
+            <input type="text" id="escalaAtletas" name="escalaAtletas" placeholder="Ex: 120 atletas, 30 duplas..." />
+          </div>
+        </section>
+
+        <div class="submit-card">
+          <div>
+            <h2>Enviar briefing</h2>
+            <p>Suas respostas vão direto para o time My Skillzy. Se o envio falhar por algum motivo, uma cópia em JSON é baixada automaticamente no seu computador.</p>
+            <div class="result" id="resultBox"></div>
+          </div>
+          <button type="submit">Enviar respostas</button>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    // Cole aqui a Project URL e a anon key do seu projeto Supabase.
+    const SUPABASE_URL = 'COLE_AQUI_SUA_SUPABASE_URL';
+    const SUPABASE_ANON_KEY = 'COLE_AQUI_SUA_SUPABASE_ANON_KEY';
+    const supabaseClient = (SUPABASE_URL.startsWith('http') && window.supabase)
+      ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+      : null;
+
+    const form = document.getElementById('briefingForm');
+    const resultBox = document.getElementById('resultBox');
+    const submitButton = form.querySelector('button[type="submit"]');
+
+    function getFormData(formElement) {
+      const data = {};
+      const formData = new FormData(formElement);
+
+      for (const [key, value] of formData.entries()) {
+        if (data[key]) {
+          if (!Array.isArray(data[key])) data[key] = [data[key]];
+          data[key].push(value);
+        } else {
+          data[key] = value;
+        }
+      }
+
+      data.enviadoEm = new Date().toISOString();
+      data.origem = 'briefing-footable-my-skillzy';
+      return data;
+    }
+
+    function downloadJSON(data) {
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      const nome = (data.nome || 'resposta').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-');
+      a.href = url;
+      a.download = `briefing-footable-${nome}.json`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    function showResult(message, isError) {
+      resultBox.style.display = 'block';
+      resultBox.style.borderColor = isError ? 'rgba(255,77,77,0.4)' : 'rgba(187,255,0,0.28)';
+      resultBox.style.background = isError ? 'rgba(255,77,77,0.08)' : 'rgba(187,255,0,0.08)';
+      resultBox.innerHTML = message;
+    }
+
+    form.addEventListener('submit', async function(event) {
+      event.preventDefault();
+      const data = getFormData(form);
+
+      submitButton.disabled = true;
+      submitButton.textContent = 'Enviando...';
+
+      if (!supabaseClient) {
+        downloadJSON(data);
+        showResult('Envio automático ainda não configurado: uma cópia das respostas foi baixada no seu computador. Envie esse arquivo para quem te mandou este link.', true);
+        submitButton.disabled = false;
+        submitButton.textContent = 'Enviar respostas';
+        return;
+      }
+
+      const { error } = await supabaseClient.from('briefing_respostas').insert([{
+        nome: data.nome || null,
+        email: data.email || null,
+        telefone: data.telefone || null,
+        dados: data
+      }]);
+
+      if (error) {
+        downloadJSON(data);
+        showResult('Não foi possível enviar automaticamente. Uma cópia em JSON foi baixada no seu computador, envie esse arquivo para quem te mandou este link.', true);
+      } else {
+        showResult('Respostas enviadas com sucesso. Obrigado por ajudar a modelar o sistema do Footable!', false);
+        form.reset();
+      }
+
+      submitButton.disabled = false;
+      submitButton.textContent = 'Enviar respostas';
+    });
+  </script>
+</body>
+</html>
