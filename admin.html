@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Relatório | Briefing Footable</title>
+  <link rel="icon" type="image/svg+xml" href="assets/footable-icon.svg" />
+  <style>
+    :root {
+      --bg: #121212;
+      --surface: #1E1E1E;
+      --surface-2: #252525;
+      --line: rgba(255,255,255,0.10);
+      --text: #FFFFFF;
+      --muted: #A9A9A9;
+      --muted-2: #6E6E6E;
+      --neon: #BBFF00;
+      --neon-soft: rgba(187,255,0,0.14);
+      --danger: #ff4d4d;
+      --radius-xl: 28px;
+      --radius-lg: 20px;
+      --radius-md: 14px;
+      --shadow: 0 30px 80px rgba(0,0,0,0.45);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 40px 20px 80px;
+    }
+    .wrap { max-width: 1000px; margin: 0 auto; }
+    h1 { font-size: 26px; margin: 0 0 6px; }
+    .sub { color: var(--muted); margin: 0 0 28px; font-size: 14px; }
+
+    .gate {
+      max-width: 360px;
+      margin: 120px auto;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      text-align: center;
+    }
+    .gate input {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--line);
+      background: rgba(0,0,0,0.25);
+      color: var(--text);
+      font: inherit;
+      margin: 16px 0;
+      outline: none;
+    }
+    .gate button, .toolbar button {
+      background: var(--neon);
+      color: #10140a;
+      border: none;
+      border-radius: 999px;
+      padding: 12px 22px;
+      font-weight: 700;
+      cursor: pointer;
+      font: inherit;
+    }
+    .gate .err { color: var(--danger); font-size: 13px; min-height: 18px; }
+
+    .toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .toolbar button.secondary {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--line);
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      margin-bottom: 18px;
+      overflow: hidden;
+    }
+    .card summary {
+      cursor: pointer;
+      padding: 18px 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      list-style: none;
+    }
+    .card summary::-webkit-details-marker { display: none; }
+    .card-title { font-weight: 700; font-size: 16px; }
+    .card-meta { color: var(--muted); font-size: 13px; }
+    .card-body {
+      padding: 0 22px 22px;
+      border-top: 1px solid var(--line);
+    }
+    .kv {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 4px 16px;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      font-size: 14px;
+    }
+    .kv:last-child { border-bottom: none; }
+    .kv .k { color: var(--neon); font-weight: 600; }
+    .kv .v { color: var(--text); white-space: pre-wrap; word-break: break-word; }
+    .empty-state { color: var(--muted); text-align: center; padding: 60px 0; }
+  </style>
+</head>
+<body>
+  <div id="gateScreen" class="gate">
+    <h1 style="font-size:20px;">Relatório — acesso restrito</h1>
+    <p class="sub">Digite a senha para ver as respostas do briefing.</p>
+    <input type="password" id="pwInput" placeholder="Senha" />
+    <div class="err" id="pwError"></div>
+    <button id="pwSubmit">Entrar</button>
+  </div>
+
+  <div class="wrap" id="reportScreen" style="display:none;">
+    <h1>Relatório de respostas — Briefing Footable</h1>
+    <p class="sub" id="countLabel">Carregando...</p>
+    <div class="toolbar">
+      <button class="secondary" onclick="location.href='index.html'">← Voltar ao formulário</button>
+      <button id="exportBtn">Exportar CSV</button>
+    </div>
+    <div id="list"></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const ADMIN_PASSWORD = 'Footable2026';
+    const SUPABASE_URL = 'https://adsfjwrvkauxajrqscbx.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_e-PbVrbADH5_f_An0tu6NA_ZFamogoA';
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const gateScreen = document.getElementById('gateScreen');
+    const reportScreen = document.getElementById('reportScreen');
+    const pwInput = document.getElementById('pwInput');
+    const pwError = document.getElementById('pwError');
+
+    let rowsCache = [];
+
+    function humanizeKey(key) {
+      return key
+        .replace(/([a-z])([A-Z])/g, '$1 $2')
+        .replace(/^./, s => s.toUpperCase());
+    }
+
+    function formatValue(value) {
+      if (value === null || value === undefined || value === '') return '—';
+      if (Array.isArray(value)) return value.join(', ');
+      return String(value);
+    }
+
+    function renderRows(rows) {
+      const list = document.getElementById('list');
+      const countLabel = document.getElementById('countLabel');
+      countLabel.textContent = `${rows.length} resposta${rows.length === 1 ? '' : 's'} recebida${rows.length === 1 ? '' : 's'}`;
+
+      if (rows.length === 0) {
+        list.innerHTML = '<div class="empty-state">Nenhuma resposta ainda.</div>';
+        return;
+      }
+
+      list.innerHTML = rows.map((row, i) => {
+        const dados = row.dados || {};
+        const skip = new Set(['nome', 'email', 'telefone', 'enviadoEm', 'origem']);
+        const rest = Object.entries(dados).filter(([k]) => !skip.has(k));
+        const date = row.criado_em ? new Date(row.criado_em).toLocaleString('pt-BR') : '';
+
+        return `
+          <details class="card" ${i === 0 ? 'open' : ''}>
+            <summary>
+              <div>
+                <div class="card-title">${formatValue(row.nome)}</div>
+                <div class="card-meta">${formatValue(row.email)} · ${formatValue(row.telefone)}</div>
+              </div>
+              <div class="card-meta">${date}</div>
+            </summary>
+            <div class="card-body">
+              ${rest.map(([k, v]) => `
+                <div class="kv">
+                  <div class="k">${humanizeKey(k)}</div>
+                  <div class="v">${formatValue(v)}</div>
+                </div>
+              `).join('')}
+            </div>
+          </details>
+        `;
+      }).join('');
+    }
+
+    function toCSV(rows) {
+      const allKeys = new Set(['nome', 'email', 'telefone', 'criado_em']);
+      rows.forEach(r => Object.keys(r.dados || {}).forEach(k => allKeys.add(k)));
+      const headers = Array.from(allKeys);
+      const escape = v => `"${String(v ?? '').replace(/"/g, '""')}"`;
+      const lines = [headers.map(escape).join(',')];
+      rows.forEach(r => {
+        const flat = { ...r.dados, nome: r.nome, email: r.email, telefone: r.telefone, criado_em: r.criado_em };
+        lines.push(headers.map(h => escape(flat[h])).join(','));
+      });
+      return lines.join('\n');
+    }
+
+    document.getElementById('exportBtn').addEventListener('click', () => {
+      const csv = toCSV(rowsCache);
+      const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `briefing-footable-respostas-${new Date().toISOString().slice(0, 10)}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    });
+
+    async function loadReport() {
+      const { data, error } = await supabaseClient
+        .from('briefing_respostas')
+        .select('*')
+        .order('criado_em', { ascending: false });
+
+      if (error) {
+        document.getElementById('list').innerHTML = `<div class="empty-state">Erro ao carregar: ${error.message}</div>`;
+        document.getElementById('countLabel').textContent = '';
+        return;
+      }
+
+      rowsCache = data || [];
+      renderRows(rowsCache);
+    }
+
+    function unlock() {
+      gateScreen.style.display = 'none';
+      reportScreen.style.display = 'block';
+      loadReport();
+    }
+
+    document.getElementById('pwSubmit').addEventListener('click', () => {
+      if (pwInput.value === ADMIN_PASSWORD) {
+        sessionStorage.setItem('footableAdminOk', '1');
+        unlock();
+      } else {
+        pwError.textContent = 'Senha incorreta.';
+      }
+    });
+
+    pwInput.addEventListener('keydown', e => {
+      if (e.key === 'Enter') document.getElementById('pwSubmit').click();
+    });
+
+    if (sessionStorage.getItem('footableAdminOk') === '1') {
+      unlock();
+    }
+  </script>
+</body>
+</html>
