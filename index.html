@@ -389,6 +389,52 @@
 
     textarea { min-height: 110px; }
 
+    .input-with-calendar {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-with-calendar input[type="text"] {
+      padding-right: 52px;
+    }
+
+    .calendar-btn {
+      position: absolute;
+      right: 8px;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      border: none;
+      border-radius: 8px;
+      color: var(--muted);
+      cursor: pointer;
+    }
+
+    .calendar-btn:hover {
+      background: rgba(187,255,0,0.10);
+      color: var(--neon);
+    }
+
+    .calendar-btn svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .calendar-hidden-input {
+      position: absolute;
+      right: 8px;
+      top: 8px;
+      width: 36px;
+      height: 36px;
+      opacity: 0;
+      pointer-events: none;
+      border: none;
+    }
+
     .priority-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -877,7 +923,13 @@
 
           <div class="field">
             <label class="question" for="prazoEvento">Qual a data prevista do evento ou o prazo limite para o sistema estar pronto?</label>
-            <input type="text" id="prazoEvento" name="prazoEvento" placeholder="Ex: 15/09/2026 ou 'até setembro'" />
+            <div class="input-with-calendar">
+              <input type="text" id="prazoEvento" name="prazoEvento" placeholder="Ex: 15/09/2026 ou 'até setembro'" />
+              <button type="button" class="calendar-btn" aria-label="Abrir calendário" onclick="document.getElementById('prazoEventoData').showPicker ? document.getElementById('prazoEventoData').showPicker() : document.getElementById('prazoEventoData').click()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              </button>
+              <input type="date" id="prazoEventoData" class="calendar-hidden-input" tabindex="-1" onchange="if(this.value){const [y,m,d]=this.value.split('-');document.getElementById('prazoEvento').value=`${d}/${m}/${y}`;}" />
+            </div>
           </div>
 
           <div class="field">
