@@ -127,6 +127,10 @@
     <button id="pwSubmit">Entrar</button>
   </div>
 
+  <div id="gateLogo" style="text-align:center; margin-top:28px;">
+    <img src="assets/myskillzy-icon.svg" alt="My Skillzy" style="width:56px; height:auto; opacity:0.9;" />
+  </div>
+
   <div class="wrap" id="reportScreen" style="display:none;">
     <h1>Relatório de respostas — Briefing Footable</h1>
     <p class="sub" id="countLabel">Carregando...</p>
@@ -245,6 +249,7 @@
 
     function unlock() {
       gateScreen.style.display = 'none';
+      document.getElementById('gateLogo').style.display = 'none';
       reportScreen.style.display = 'block';
       loadReport();
     }
