@@ -143,6 +143,70 @@
       pointer-events: none;
     }
 
+    .hero-card:after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--neon), transparent);
+      transform: scaleX(0);
+      transform-origin: left;
+      animation: sweep-in 1.6s cubic-bezier(.16,1,.3,1) forwards;
+      animation-delay: .15s;
+    }
+
+    @keyframes sweep-in {
+      to { transform: scaleX(1); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hero-card:after { animation: none; transform: scaleX(1); }
+    }
+
+    .credentials {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 30px;
+      padding-top: 24px;
+      border-top: 1px solid var(--line);
+      position: relative;
+    }
+
+    .credentials .cred-label {
+      width: 100%;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--muted-2);
+      margin-bottom: 6px;
+      font-weight: 700;
+    }
+
+    .credential-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      border: 1px solid var(--line);
+      background: rgba(0,0,0,0.24);
+      padding: 9px 15px;
+      border-radius: 999px;
+      font-size: 13px;
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .credential-chip .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--neon);
+      box-shadow: 0 0 8px rgba(187,255,0,0.65);
+      flex: 0 0 auto;
+    }
+
     .kicker {
       display: inline-flex;
       align-items: center;
@@ -568,6 +632,13 @@
         <p>
           Este formulário serve para mapear o que a Liga Nacional de Footable do Brasil e a Copa do Mundo de Footable precisam em um sistema de competição, liga, ranking e operação de eventos. O prazo é curto: a primeira etapa é levantar o cenário completo para separar o essencial desta primeira entrega do que pode vir depois.
         </p>
+
+        <div class="credentials">
+          <div class="cred-label">Este sistema vai operar</div>
+          <div class="credential-chip"><span class="dot"></span> Liga Nacional de Footable</div>
+          <div class="credential-chip"><span class="dot"></span> Copa do Mundo de Footable</div>
+          <div class="credential-chip"><span class="dot"></span> Ecossistema My Skillzy</div>
+        </div>
       </div>
 
       <aside class="side-card">
