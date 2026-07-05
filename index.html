@@ -361,6 +361,48 @@
       font-size: 14px;
     }
 
+    .phase-tag {
+      display: inline-block;
+      vertical-align: middle;
+      margin-left: 10px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      border: 1px dashed var(--line);
+      border-radius: 999px;
+      padding: 4px 10px;
+    }
+
+    .section.phase2 {
+      border-style: dashed;
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015));
+    }
+
+    .field-hint {
+      margin: -8px 0 12px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .field-row label.sub-label {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 6px;
+    }
+
+    @media (max-width: 720px) {
+      .field-row { grid-template-columns: 1fr; }
+    }
+
     .badge {
       flex: 0 0 auto;
       width: 40px;
@@ -659,12 +701,15 @@
         <h3>Seções</h3>
         <a href="#dados">Dados iniciais</a>
         <a href="#processo">Processo atual</a>
-        <a href="#liga">Liga e ranking</a>
-        <a href="#inscricoes">Inscrições e atletas</a>
-        <a href="#categorias">Categorias</a>
         <a href="#chaveamento">Chaveamento</a>
-        <a href="#pontuacao">Pontuação e operação</a>
-        <a href="#integracao">Integração My Skillzy</a>
+        <a href="#pontuacao">Pontuação e acesso</a>
+        <a href="#inscricoes">Base de atletas</a>
+        <a href="#categorias">Categorias</a>
+        <a href="#federacao">Integração com federação</a>
+        <a href="#escala">Escala e prazo</a>
+        <a href="#visao-liga">Visão · Liga e ranking</a>
+        <a href="#visao-integracao">Visão · My Skillzy</a>
+        <a href="#visao-ideias">Visão · Ideias futuras</a>
         <a href="#prioridade">Prioridades</a>
       </nav>
 
@@ -714,13 +759,14 @@
           <div class="section-head">
             <div class="section-title">
               <h2>Processo atual</h2>
-              <p>Como tudo funciona hoje, antes de falar em funcionalidades.</p>
+              <p>Pé no chão: como tudo funciona hoje, antes de falar em funcionalidades.</p>
             </div>
             <div class="badge">2</div>
           </div>
 
           <div class="field">
-            <label class="question">Hoje, quais ferramentas vocês usam para organizar uma etapa?</label>
+            <label class="question">Hoje, quando vocês organizam uma etapa, como funciona na prática?</label>
+            <p class="field-hint">Usam algum app ou site para chaveamento? Algum app para marcar pontos ao vivo? Planilha para inscrição e nivelamento?</p>
             <div class="options">
               <label class="option"><input type="checkbox" name="ferramentas" value="Planilha" /> Planilha</label>
               <label class="option"><input type="checkbox" name="ferramentas" value="WhatsApp" /> WhatsApp</label>
@@ -738,7 +784,8 @@
           </div>
 
           <div class="field">
-            <label class="question">O que mais gera problema hoje?</label>
+            <label class="question">O que mais incomoda nesse processo atual?</label>
+            <p class="field-hint">O que é lento, manual ou gera erro?</p>
             <div class="options">
               <label class="option"><input type="checkbox" name="problemas" value="Inscrição" /> Inscrição</label>
               <label class="option"><input type="checkbox" name="problemas" value="Categoria errada" /> Categoria errada</label>
@@ -751,19 +798,196 @@
             </div>
             <input type="text" name="problemasOutro" placeholder="Outro problema (especifique)" style="margin-top:10px" />
           </div>
+
+          <div class="field">
+            <label class="question" for="ferramentasSubstituir">Dessas ferramentas que vocês usam hoje, quais o app precisaria substituir logo na primeira versão, e quais podem continuar sendo usadas em paralelo por enquanto?</label>
+            <textarea id="ferramentasSubstituir" name="ferramentasSubstituir" placeholder="Ex: substituir a planilha de inscrição agora; o WhatsApp pode continuar em paralelo por enquanto."></textarea>
+          </div>
         </section>
 
-        <section class="section" id="liga">
+        <section class="section" id="chaveamento">
           <div class="section-head">
             <div class="section-title">
-              <h2>Liga e ranking</h2>
-              <p>Como a competição se conecta com ranking nacional e mundial.</p>
+              <h2>Chaveamento</h2>
+              <p>Pé no chão: o que a primeira versão precisa aguentar.</p>
             </div>
             <div class="badge">3</div>
           </div>
 
           <div class="field">
-            <label class="question">A Liga Nacional de Footable precisa nascer no sistema desde a primeira versão?</label>
+            <label class="question">O app precisa suportar chaveamento completo (mata-mata, grupos, repescagem) desde o início, ou a primeira versão pode rodar com algo mais simples?</label>
+            <div class="options">
+              <label class="option"><input type="checkbox" name="formatos" value="Mata-mata" /> Mata-mata</label>
+              <label class="option"><input type="checkbox" name="formatos" value="Grupos" /> Grupos</label>
+              <label class="option"><input type="checkbox" name="formatos" value="Repescagem" /> Repescagem</label>
+              <label class="option"><input type="checkbox" name="formatos" value="Todos contra todos" /> Todos contra todos</label>
+              <label class="option"><input type="checkbox" name="formatos" value="Dupla eliminação" /> Dupla eliminação</label>
+              <label class="option"><input type="checkbox" name="formatos" value="Formato simples no início" /> Formato simples no início</label>
+            </div>
+            <input type="text" name="formatosOutro" placeholder="Outro formato (especifique)" style="margin-top:10px" />
+          </div>
+
+          <div class="field">
+            <label class="question">As regras de chaveamento das etapas anteriores estão documentadas em algum lugar?</label>
+            <div class="options">
+              <label class="option"><input type="radio" name="regrasDocumentadas" value="Sim" /> Sim</label>
+              <label class="option"><input type="radio" name="regrasDocumentadas" value="Parcialmente" /> Parcialmente</label>
+              <label class="option"><input type="radio" name="regrasDocumentadas" value="Não" /> Não</label>
+              <label class="option"><input type="radio" name="regrasDocumentadas" value="Não sei" /> Não sei responder</label>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="pontuacao">
+          <div class="section-head">
+            <div class="section-title">
+              <h2>Pontuação e acesso</h2>
+              <p>Pé no chão: o que precisa funcionar no dia da etapa.</p>
+            </div>
+            <div class="badge">4</div>
+          </div>
+
+          <div class="field">
+            <label class="question">Marcação de pontuação em tempo real é obrigatória no lançamento ou pode entrar depois?</label>
+            <div class="options">
+              <label class="option"><input type="radio" name="placarTempoReal" value="Obrigatório" /> Obrigatório no lançamento</label>
+              <label class="option"><input type="radio" name="placarTempoReal" value="Resultado ao final" /> Pode lançar resultado ao final</label>
+              <label class="option"><input type="radio" name="placarTempoReal" value="Fase futura" /> Fase futura</label>
+              <label class="option"><input type="radio" name="placarTempoReal" value="Não sei" /> Não sei responder</label>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="question">Quem precisa acessar o sistema no dia do evento?</label>
+            <p class="field-hint">Organizador monta e supervisiona. Árbitro registra resultado da partida. Staff apoia inscrição e chamada. Atleta só acompanha. Falta algum perfil?</p>
+            <div class="options">
+              <label class="option"><input type="checkbox" name="perfis" value="Organizador" /> Organizador</label>
+              <label class="option"><input type="checkbox" name="perfis" value="Árbitro" /> Árbitro</label>
+              <label class="option"><input type="checkbox" name="perfis" value="Staff" /> Staff</label>
+              <label class="option"><input type="checkbox" name="perfis" value="Atleta" /> Atleta</label>
+              <label class="option"><input type="checkbox" name="perfis" value="Federação" /> Federação</label>
+              <label class="option"><input type="checkbox" name="perfis" value="Público" /> Público</label>
+            </div>
+            <input type="text" name="perfisOutro" placeholder="Falta algum perfil? Especifique" style="margin-top:10px" />
+          </div>
+        </section>
+
+        <section class="section" id="inscricoes">
+          <div class="section-head">
+            <div class="section-title">
+              <h2>Base de atletas</h2>
+              <p>Pé no chão: o que já existe pra alimentar o sistema.</p>
+            </div>
+            <div class="badge">5</div>
+          </div>
+
+          <div class="field">
+            <label class="question" for="baseAtletas">Vocês têm a base de atletas credenciados em formato exportável? Em qual formato?</label>
+            <textarea id="baseAtletas" name="baseAtletas" placeholder="Ex: Excel, Google Sheets, sistema da federação, PDF, cadastro manual..."></textarea>
+          </div>
+
+          <div class="field">
+            <label class="question">A lista de inscritos do Foot Table usada para nivelamento está disponível para envio agora?</label>
+            <div class="options">
+              <label class="option"><input type="radio" name="listaInscritos" value="Sim, disponível agora" /> Sim, disponível agora</label>
+              <label class="option"><input type="radio" name="listaInscritos" value="Parcialmente" /> Parcialmente</label>
+              <label class="option"><input type="radio" name="listaInscritos" value="Não, precisa organizar" /> Não, precisa organizar</label>
+              <label class="option"><input type="radio" name="listaInscritos" value="Não sei" /> Não sei responder</label>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="categorias">
+          <div class="section-head">
+            <div class="section-title">
+              <h2>Categorias</h2>
+              <p>Pé no chão: nivelamento e bloqueio de categoria.</p>
+            </div>
+            <div class="badge">6</div>
+          </div>
+
+          <div class="field">
+            <label class="question">O sistema precisa impedir automaticamente inscrição em categoria errada, ou isso pode ser validação manual do organizador no início?</label>
+            <div class="options">
+              <label class="option"><input type="radio" name="bloqueioCategoria" value="Automático obrigatório" /> Sim, automático no lançamento</label>
+              <label class="option"><input type="radio" name="bloqueioCategoria" value="Validação manual" /> Validação manual no início</label>
+              <label class="option"><input type="radio" name="bloqueioCategoria" value="Fase futura" /> Pode ficar para fase futura</label>
+              <label class="option"><input type="radio" name="bloqueioCategoria" value="Não sei" /> Não sei responder</label>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="question" for="categoriasOficiais">Quais são as categorias oficiais que precisam existir desde o lançamento?</label>
+            <textarea id="categoriasOficiais" name="categoriasOficiais" placeholder="Liste as categorias oficiais."></textarea>
+          </div>
+        </section>
+
+        <section class="section" id="federacao">
+          <div class="section-head">
+            <div class="section-title">
+              <h2>Integração com federação</h2>
+              <p>Pé no chão: o que já precisa conversar com outros sistemas no MVP.</p>
+            </div>
+            <div class="badge">7</div>
+          </div>
+
+          <div class="field">
+            <label class="question">Existe integração obrigatória com sistema de outra federação já no MVP, ou isso é fase futura?</label>
+            <div class="options">
+              <label class="option"><input type="radio" name="federacaoIntegracao" value="Obrigatório no MVP" /> Sim, obrigatório no MVP</label>
+              <label class="option"><input type="radio" name="federacaoIntegracao" value="Fase futura" /> Pode ser fase futura</label>
+              <label class="option"><input type="radio" name="federacaoIntegracao" value="Não sei" /> Não sei responder</label>
+            </div>
+            <textarea name="federacaoDetalhe" placeholder="Se sim, com qual sistema/federação?" style="margin-top:10px"></textarea>
+          </div>
+        </section>
+
+        <section class="section" id="escala">
+          <div class="section-head">
+            <div class="section-title">
+              <h2>Escala e prazo</h2>
+              <p>Pé no chão: tamanho do evento e janela de tempo.</p>
+            </div>
+            <div class="badge">8</div>
+          </div>
+
+          <div class="field">
+            <label class="question">Qual a média de participantes em uma etapa normal, e qual a média em uma etapa grande?</label>
+            <div class="field-row">
+              <div>
+                <label class="sub-label">Etapa normal</label>
+                <input type="text" name="mediaParticipantesNormal" placeholder="Ex: 60 atletas" />
+              </div>
+              <div>
+                <label class="sub-label">Etapa grande</label>
+                <input type="text" name="mediaParticipantesGrande" placeholder="Ex: 200 atletas" />
+              </div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="question" for="prazoEvento">Qual a data prevista do evento ou o prazo limite para o sistema estar pronto?</label>
+            <div class="input-with-calendar">
+              <input type="text" id="prazoEvento" name="prazoEvento" placeholder="Ex: 15/09/2026 ou 'até setembro'" />
+              <button type="button" class="calendar-btn" aria-label="Abrir calendário" onclick="document.getElementById('prazoEventoData').showPicker ? document.getElementById('prazoEventoData').showPicker() : document.getElementById('prazoEventoData').click()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              </button>
+              <input type="date" id="prazoEventoData" class="calendar-hidden-input" tabindex="-1" onchange="if(this.value){const [y,m,d]=this.value.split('-');document.getElementById('prazoEvento').value=`${d}/${m}/${y}`;}" />
+            </div>
+          </div>
+        </section>
+
+        <section class="section phase2" id="visao-liga">
+          <div class="section-head">
+            <div class="section-title">
+              <h2>Visão · Liga e ranking <span class="phase-tag">Fase 2 · não é essa entrega</span></h2>
+              <p>Isso é a direção de futuro. Ajuda a planejar o que vem depois, mas não faz parte do que precisa estar pronto no lançamento.</p>
+            </div>
+            <div class="badge">9</div>
+          </div>
+
+          <div class="field">
+            <label class="question">A Liga Nacional de Footable precisa nascer no sistema com ranking próprio?</label>
             <div class="options">
               <label class="option"><input type="radio" name="ligaMvp" value="Obrigatório" /> Obrigatório no lançamento</label>
               <label class="option"><input type="radio" name="ligaMvp" value="Pode ser fase 2" /> Pode ser fase 2</label>
@@ -788,16 +1012,6 @@
             <label class="question" for="rankingCopa">Como o ranking se conecta com vaga ou classificação para a Copa do Mundo de Footable?</label>
             <textarea id="rankingCopa" name="rankingCopa" placeholder="Descreva a regra atual ou a regra desejada."></textarea>
           </div>
-        </section>
-
-        <section class="section" id="inscricoes">
-          <div class="section-head">
-            <div class="section-title">
-              <h2>Inscrições e atletas</h2>
-              <p>Base de atletas, credenciamento, inscrição e pagamento.</p>
-            </div>
-            <div class="badge">4</div>
-          </div>
 
           <div class="field">
             <label class="question">A inscrição precisa acontecer dentro do sistema no lançamento?</label>
@@ -820,102 +1034,6 @@
           </div>
 
           <div class="field">
-            <label class="question" for="baseAtletas">Vocês já têm base de atletas credenciados? Em qual formato?</label>
-            <textarea id="baseAtletas" name="baseAtletas" placeholder="Ex: Excel, Google Sheets, sistema da federação, PDF, cadastro manual..."></textarea>
-          </div>
-        </section>
-
-        <section class="section" id="categorias">
-          <div class="section-head">
-            <div class="section-title">
-              <h2>Categorias</h2>
-              <p>Regras oficiais, nivelamento e bloqueio de categoria.</p>
-            </div>
-            <div class="badge">5</div>
-          </div>
-
-          <div class="field">
-            <label class="question">O sistema precisa impedir inscrição em categoria errada automaticamente?</label>
-            <div class="options">
-              <label class="option"><input type="radio" name="bloqueioCategoria" value="Automático obrigatório" /> Sim, automático no lançamento</label>
-              <label class="option"><input type="radio" name="bloqueioCategoria" value="Validação manual" /> Pode ser validação manual no início</label>
-              <label class="option"><input type="radio" name="bloqueioCategoria" value="Fase futura" /> Pode ficar para fase futura</label>
-              <label class="option"><input type="radio" name="bloqueioCategoria" value="Não sei" /> Não sei responder</label>
-            </div>
-          </div>
-
-          <div class="field">
-            <label class="question" for="categoriasOficiais">Quais categorias oficiais precisam existir desde o lançamento?</label>
-            <textarea id="categoriasOficiais" name="categoriasOficiais" placeholder="Liste as categorias oficiais."></textarea>
-          </div>
-        </section>
-
-        <section class="section" id="chaveamento">
-          <div class="section-head">
-            <div class="section-title">
-              <h2>Chaveamento</h2>
-              <p>Formatos de disputa e regras de montagem.</p>
-            </div>
-            <div class="badge">6</div>
-          </div>
-
-          <div class="field">
-            <label class="question">Quais formatos precisam existir?</label>
-            <div class="options">
-              <label class="option"><input type="checkbox" name="formatos" value="Mata-mata" /> Mata-mata</label>
-              <label class="option"><input type="checkbox" name="formatos" value="Grupos" /> Grupos</label>
-              <label class="option"><input type="checkbox" name="formatos" value="Repescagem" /> Repescagem</label>
-              <label class="option"><input type="checkbox" name="formatos" value="Todos contra todos" /> Todos contra todos</label>
-              <label class="option"><input type="checkbox" name="formatos" value="Dupla eliminação" /> Dupla eliminação</label>
-              <label class="option"><input type="checkbox" name="formatos" value="Formato simples no início" /> Formato simples no início</label>
-            </div>
-            <input type="text" name="formatosOutro" placeholder="Outro formato (especifique)" style="margin-top:10px" />
-          </div>
-
-          <div class="field">
-            <label class="question">As regras de chaveamento já estão documentadas?</label>
-            <div class="options">
-              <label class="option"><input type="radio" name="regrasDocumentadas" value="Sim" /> Sim</label>
-              <label class="option"><input type="radio" name="regrasDocumentadas" value="Parcialmente" /> Parcialmente</label>
-              <label class="option"><input type="radio" name="regrasDocumentadas" value="Não" /> Não</label>
-              <label class="option"><input type="radio" name="regrasDocumentadas" value="Não sei" /> Não sei responder</label>
-            </div>
-          </div>
-        </section>
-
-        <section class="section" id="pontuacao">
-          <div class="section-head">
-            <div class="section-title">
-              <h2>Pontuação e operação</h2>
-              <p>Dia do evento, placar, resultado, correção e acesso.</p>
-            </div>
-            <div class="badge">7</div>
-          </div>
-
-          <div class="field">
-            <label class="question">Pontuação em tempo real é obrigatória no lançamento?</label>
-            <div class="options">
-              <label class="option"><input type="radio" name="placarTempoReal" value="Obrigatório" /> Obrigatório no lançamento</label>
-              <label class="option"><input type="radio" name="placarTempoReal" value="Resultado ao final" /> Pode lançar resultado ao final</label>
-              <label class="option"><input type="radio" name="placarTempoReal" value="Fase futura" /> Fase futura</label>
-              <label class="option"><input type="radio" name="placarTempoReal" value="Não sei" /> Não sei responder</label>
-            </div>
-          </div>
-
-          <div class="field">
-            <label class="question">Quem precisa acessar no dia do evento?</label>
-            <div class="options">
-              <label class="option"><input type="checkbox" name="perfis" value="Organizador" /> Organizador</label>
-              <label class="option"><input type="checkbox" name="perfis" value="Árbitro" /> Árbitro</label>
-              <label class="option"><input type="checkbox" name="perfis" value="Staff" /> Staff</label>
-              <label class="option"><input type="checkbox" name="perfis" value="Atleta" /> Atleta</label>
-              <label class="option"><input type="checkbox" name="perfis" value="Federação" /> Federação</label>
-              <label class="option"><input type="checkbox" name="perfis" value="Público" /> Público</label>
-            </div>
-            <input type="text" name="perfisOutro" placeholder="Outro perfil (especifique)" style="margin-top:10px" />
-          </div>
-
-          <div class="field">
             <label class="question">O público precisa acompanhar chave, placar e ranking ao vivo?</label>
             <div class="options">
               <label class="option"><input type="radio" name="publicoAoVivo" value="Sim" /> Sim, desde o lançamento</label>
@@ -926,13 +1044,13 @@
           </div>
         </section>
 
-        <section class="section" id="integracao">
+        <section class="section phase2" id="visao-integracao">
           <div class="section-head">
             <div class="section-title">
-              <h2>Integração com My Skillzy</h2>
-              <p>Esta integração é premissa obrigatória do ecossistema.</p>
+              <h2>Visão · Integração ampla com My Skillzy <span class="phase-tag">Fase 2 · não é essa entrega</span></h2>
+              <p>Histórico competitivo, avaliação técnica e pagamentos conversando com o ecossistema.</p>
             </div>
-            <div class="badge">8</div>
+            <div class="badge">10</div>
           </div>
 
           <div class="field">
@@ -958,13 +1076,37 @@
           </div>
         </section>
 
+        <section class="section phase2" id="visao-ideias">
+          <div class="section-head">
+            <div class="section-title">
+              <h2>Visão · Ideias já comentadas <span class="phase-tag">Fase 2 · não é essa entrega</span></h2>
+              <p>Marque o que já faz sentido priorizar para explorar depois desta primeira entrega.</p>
+            </div>
+            <div class="badge">11</div>
+          </div>
+
+          <div class="field">
+            <label class="question">Quais dessas ideias fazem sentido priorizar?</label>
+            <div class="options">
+              <label class="option"><input type="checkbox" name="ideiasFuturas" value="Cards de atletas com métricas de desempenho (scouts)" /> Cards de atletas com métricas de desempenho (scouts)</label>
+              <label class="option"><input type="checkbox" name="ideiasFuturas" value="Card do atleta no app My Skillzy com troféus e títulos conquistados" /> Card do atleta no app My Skillzy com troféus e títulos conquistados</label>
+              <label class="option"><input type="checkbox" name="ideiasFuturas" value="Conteúdo interativo tipo Jogo das Estrelas" /> Conteúdo interativo tipo Jogo das Estrelas</label>
+              <label class="option"><input type="checkbox" name="ideiasFuturas" value="Telão em eventos com atualização ao vivo (16:9)" /> Telão em eventos com atualização ao vivo (16:9)</label>
+              <label class="option"><input type="checkbox" name="ideiasFuturas" value="My Skillzy como app oficial da federação internacional" /> My Skillzy como app oficial da federação internacional</label>
+              <label class="option"><input type="checkbox" name="ideiasFuturas" value="Liga Nacional de clubes" /> Liga Nacional de clubes</label>
+              <label class="option"><input type="checkbox" name="ideiasFuturas" value="Benchmark com Copa Fácil e Pensa no Evento" /> Benchmark com Copa Fácil e Pensa no Evento</label>
+            </div>
+            <input type="text" name="ideiasFuturasOutro" placeholder="Outra ideia (especifique)" style="margin-top:10px" />
+          </div>
+        </section>
+
         <section class="section" id="prioridade">
           <div class="section-head">
             <div class="section-title">
               <h2>Prioridades do MVP</h2>
               <p>Separar o essencial do desejável para viabilizar a primeira entrega.</p>
             </div>
-            <div class="badge">9</div>
+            <div class="badge">12</div>
           </div>
 
           <div class="priority-grid">
@@ -980,32 +1122,6 @@
               <h4>Dúvidas abertas</h4>
               <textarea name="duvidas" placeholder="Liste pontos que ainda precisam ser decididos."></textarea>
             </div>
-          </div>
-
-          <div class="field" style="margin-top:22px;">
-            <label class="question">Qual cenário de evento o sistema precisa suportar no início?</label>
-            <div class="options">
-              <label class="option"><input type="radio" name="escalaInicial" value="Etapa normal" /> Etapa normal</label>
-              <label class="option"><input type="radio" name="escalaInicial" value="Etapa grande" /> Etapa grande</label>
-              <label class="option"><input type="radio" name="escalaInicial" value="Ambos" /> Ambos desde o início</label>
-              <label class="option"><input type="radio" name="escalaInicial" value="Não sei" /> Não sei responder</label>
-            </div>
-          </div>
-
-          <div class="field">
-            <label class="question" for="prazoEvento">Qual a data prevista do evento ou o prazo limite para o sistema estar pronto?</label>
-            <div class="input-with-calendar">
-              <input type="text" id="prazoEvento" name="prazoEvento" placeholder="Ex: 15/09/2026 ou 'até setembro'" />
-              <button type="button" class="calendar-btn" aria-label="Abrir calendário" onclick="document.getElementById('prazoEventoData').showPicker ? document.getElementById('prazoEventoData').showPicker() : document.getElementById('prazoEventoData').click()">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-              </button>
-              <input type="date" id="prazoEventoData" class="calendar-hidden-input" tabindex="-1" onchange="if(this.value){const [y,m,d]=this.value.split('-');document.getElementById('prazoEvento').value=`${d}/${m}/${y}`;}" />
-            </div>
-          </div>
-
-          <div class="field">
-            <label class="question" for="escalaAtletas">Quantos atletas ou equipes são esperados nesta edição?</label>
-            <input type="text" id="escalaAtletas" name="escalaAtletas" placeholder="Ex: 120 atletas, 30 duplas..." />
           </div>
         </section>
 
