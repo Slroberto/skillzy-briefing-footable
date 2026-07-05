@@ -543,8 +543,8 @@
 
     .priority-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
+      grid-template-columns: 1fr;
+      gap: 14px;
     }
 
     .priority-card {
@@ -558,6 +558,21 @@
       margin: 0 0 10px;
       color: var(--neon);
       font-size: 14px;
+    }
+
+    .priority-card textarea {
+      min-height: 200px;
+    }
+
+    .section-context {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.55;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      margin-bottom: 22px;
     }
 
     .submit-card {
@@ -764,6 +779,8 @@
             <div class="badge">2</div>
           </div>
 
+          <p class="section-context">Antes de falar em sistema novo, queremos entender como a organização de uma etapa acontece hoje, na prática, com as ferramentas que vocês já usam.</p>
+
           <div class="field">
             <label class="question">Hoje, quando vocês organizam uma etapa, como funciona na prática?</label>
             <p class="field-hint">Usam algum app ou site para chaveamento? Algum app para marcar pontos ao vivo? Planilha para inscrição e nivelamento?</p>
@@ -814,17 +831,28 @@
             <div class="badge">3</div>
           </div>
 
+          <p class="section-context">Chaveamento é a estrutura que define os confrontos entre atletas dentro de uma etapa — quem joga contra quem e como avança até a final.</p>
+
           <div class="field">
-            <label class="question">O app precisa suportar chaveamento completo (mata-mata, grupos, repescagem) desde o início, ou a primeira versão pode rodar com algo mais simples?</label>
+            <label class="question">Quais formatos de chaveamento o aplicativo de campeonato precisa suportar?</label>
             <div class="options">
               <label class="option"><input type="checkbox" name="formatos" value="Mata-mata" /> Mata-mata</label>
               <label class="option"><input type="checkbox" name="formatos" value="Grupos" /> Grupos</label>
               <label class="option"><input type="checkbox" name="formatos" value="Repescagem" /> Repescagem</label>
               <label class="option"><input type="checkbox" name="formatos" value="Todos contra todos" /> Todos contra todos</label>
               <label class="option"><input type="checkbox" name="formatos" value="Dupla eliminação" /> Dupla eliminação</label>
-              <label class="option"><input type="checkbox" name="formatos" value="Formato simples no início" /> Formato simples no início</label>
             </div>
             <input type="text" name="formatosOutro" placeholder="Outro formato (especifique)" style="margin-top:10px" />
+          </div>
+
+          <div class="field">
+            <label class="question">Qual o grau de importância de chaveamento completo (grupos e repescagem, além de mata-mata) para o aplicativo de campeonato?</label>
+            <div class="options">
+              <label class="option"><input type="radio" name="chaveamentoCompletoImportancia" value="Indispensável" /> Indispensável</label>
+              <label class="option"><input type="radio" name="chaveamentoCompletoImportancia" value="Desejável" /> Desejável</label>
+              <label class="option"><input type="radio" name="chaveamentoCompletoImportancia" value="Dispensável" /> Dispensável</label>
+              <label class="option"><input type="radio" name="chaveamentoCompletoImportancia" value="Não sei" /> Não sei responder</label>
+            </div>
           </div>
 
           <div class="field">
@@ -848,11 +876,11 @@
           </div>
 
           <div class="field">
-            <label class="question">Marcação de pontuação em tempo real é obrigatória no lançamento ou pode entrar depois?</label>
+            <label class="question">Qual o grau de importância da marcação de pontuação em tempo real para o aplicativo de campeonato?</label>
             <div class="options">
-              <label class="option"><input type="radio" name="placarTempoReal" value="Obrigatório" /> Obrigatório no lançamento</label>
-              <label class="option"><input type="radio" name="placarTempoReal" value="Resultado ao final" /> Pode lançar resultado ao final</label>
-              <label class="option"><input type="radio" name="placarTempoReal" value="Fase futura" /> Fase futura</label>
+              <label class="option"><input type="radio" name="placarTempoReal" value="Indispensável" /> Indispensável</label>
+              <label class="option"><input type="radio" name="placarTempoReal" value="Desejável" /> Desejável</label>
+              <label class="option"><input type="radio" name="placarTempoReal" value="Dispensável" /> Dispensável</label>
               <label class="option"><input type="radio" name="placarTempoReal" value="Não sei" /> Não sei responder</label>
             </div>
           </div>
@@ -907,11 +935,11 @@
           </div>
 
           <div class="field">
-            <label class="question">O sistema precisa impedir automaticamente inscrição em categoria errada, ou isso pode ser validação manual do organizador no início?</label>
+            <label class="question">Qual o grau de importância de o sistema impedir automaticamente inscrição em categoria errada para o aplicativo de campeonato?</label>
             <div class="options">
-              <label class="option"><input type="radio" name="bloqueioCategoria" value="Automático obrigatório" /> Sim, automático no lançamento</label>
-              <label class="option"><input type="radio" name="bloqueioCategoria" value="Validação manual" /> Validação manual no início</label>
-              <label class="option"><input type="radio" name="bloqueioCategoria" value="Fase futura" /> Pode ficar para fase futura</label>
+              <label class="option"><input type="radio" name="bloqueioCategoria" value="Indispensável" /> Indispensável</label>
+              <label class="option"><input type="radio" name="bloqueioCategoria" value="Desejável" /> Desejável</label>
+              <label class="option"><input type="radio" name="bloqueioCategoria" value="Dispensável" /> Dispensável</label>
               <label class="option"><input type="radio" name="bloqueioCategoria" value="Não sei" /> Não sei responder</label>
             </div>
           </div>
@@ -932,10 +960,11 @@
           </div>
 
           <div class="field">
-            <label class="question">Existe integração obrigatória com sistema de outra federação já no MVP, ou isso é fase futura?</label>
+            <label class="question">Qual o grau de importância de integração com sistema de outra federação para o aplicativo de campeonato?</label>
             <div class="options">
-              <label class="option"><input type="radio" name="federacaoIntegracao" value="Obrigatório no MVP" /> Sim, obrigatório no MVP</label>
-              <label class="option"><input type="radio" name="federacaoIntegracao" value="Fase futura" /> Pode ser fase futura</label>
+              <label class="option"><input type="radio" name="federacaoIntegracao" value="Indispensável" /> Indispensável</label>
+              <label class="option"><input type="radio" name="federacaoIntegracao" value="Desejável" /> Desejável</label>
+              <label class="option"><input type="radio" name="federacaoIntegracao" value="Dispensável" /> Dispensável</label>
               <label class="option"><input type="radio" name="federacaoIntegracao" value="Não sei" /> Não sei responder</label>
             </div>
             <textarea name="federacaoDetalhe" placeholder="Se sim, com qual sistema/federação?" style="margin-top:10px"></textarea>
@@ -1014,31 +1043,31 @@
           </div>
 
           <div class="field">
-            <label class="question">A inscrição precisa acontecer dentro do sistema no lançamento?</label>
+            <label class="question">Qual o grau de importância de a inscrição acontecer dentro do sistema para o aplicativo de campeonato?</label>
             <div class="options">
-              <label class="option"><input type="radio" name="inscricaoMvp" value="Obrigatório" /> Obrigatório no lançamento</label>
-              <label class="option"><input type="radio" name="inscricaoMvp" value="Importar planilha" /> Pode começar importando planilha</label>
-              <label class="option"><input type="radio" name="inscricaoMvp" value="Fase futura" /> Pode ficar para fase futura</label>
+              <label class="option"><input type="radio" name="inscricaoMvp" value="Indispensável" /> Indispensável</label>
+              <label class="option"><input type="radio" name="inscricaoMvp" value="Desejável" /> Desejável</label>
+              <label class="option"><input type="radio" name="inscricaoMvp" value="Dispensável" /> Dispensável</label>
               <label class="option"><input type="radio" name="inscricaoMvp" value="Não sei" /> Não sei responder</label>
             </div>
           </div>
 
           <div class="field">
-            <label class="question">O pagamento da inscrição precisa entrar no sistema agora?</label>
+            <label class="question">Qual o grau de importância de o pagamento da inscrição acontecer dentro do sistema para o aplicativo de campeonato?</label>
             <div class="options">
-              <label class="option"><input type="radio" name="pagamentoInscricao" value="Obrigatório" /> Obrigatório no lançamento</label>
-              <label class="option"><input type="radio" name="pagamentoInscricao" value="Pode ser externo" /> Pode continuar fora no início</label>
-              <label class="option"><input type="radio" name="pagamentoInscricao" value="Fase futura" /> Fase futura</label>
+              <label class="option"><input type="radio" name="pagamentoInscricao" value="Indispensável" /> Indispensável</label>
+              <label class="option"><input type="radio" name="pagamentoInscricao" value="Desejável" /> Desejável</label>
+              <label class="option"><input type="radio" name="pagamentoInscricao" value="Dispensável" /> Dispensável</label>
               <label class="option"><input type="radio" name="pagamentoInscricao" value="Não sei" /> Não sei responder</label>
             </div>
           </div>
 
           <div class="field">
-            <label class="question">O público precisa acompanhar chave, placar e ranking ao vivo?</label>
+            <label class="question">Qual o grau de importância de o público acompanhar chave, placar e ranking ao vivo para o aplicativo de campeonato?</label>
             <div class="options">
-              <label class="option"><input type="radio" name="publicoAoVivo" value="Sim" /> Sim, desde o lançamento</label>
-              <label class="option"><input type="radio" name="publicoAoVivo" value="Parcial" /> Parcialmente</label>
-              <label class="option"><input type="radio" name="publicoAoVivo" value="Não no MVP" /> Não no MVP</label>
+              <label class="option"><input type="radio" name="publicoAoVivo" value="Indispensável" /> Indispensável</label>
+              <label class="option"><input type="radio" name="publicoAoVivo" value="Desejável" /> Desejável</label>
+              <label class="option"><input type="radio" name="publicoAoVivo" value="Dispensável" /> Dispensável</label>
               <label class="option"><input type="radio" name="publicoAoVivo" value="Não sei" /> Não sei responder</label>
             </div>
           </div>
@@ -1053,21 +1082,36 @@
             <div class="badge">10</div>
           </div>
 
+          <p class="section-context">Descreva como seria a integração com o My Skillzy em cada item abaixo. Ranking já cobre avaliação técnica e histórico competitivo.</p>
+
           <div class="field">
-            <label class="question">Quais dados precisam conversar com o My Skillzy?</label>
-            <div class="options">
-              <label class="option"><input type="checkbox" name="dadosSkillzy" value="Atleta" /> Atleta</label>
-              <label class="option"><input type="checkbox" name="dadosSkillzy" value="Aluno" /> Aluno</label>
-              <label class="option"><input type="checkbox" name="dadosSkillzy" value="Professor" /> Professor</label>
-              <label class="option"><input type="checkbox" name="dadosSkillzy" value="Escola" /> Escola</label>
-              <label class="option"><input type="checkbox" name="dadosSkillzy" value="Categoria" /> Categoria</label>
-              <label class="option"><input type="checkbox" name="dadosSkillzy" value="Avaliação técnica" /> Avaliação técnica</label>
-              <label class="option"><input type="checkbox" name="dadosSkillzy" value="Ranking" /> Ranking</label>
-              <label class="option"><input type="checkbox" name="dadosSkillzy" value="Histórico competitivo" /> Histórico competitivo</label>
-              <label class="option"><input type="checkbox" name="dadosSkillzy" value="Pagamentos" /> Pagamentos</label>
-              <label class="option"><input type="checkbox" name="dadosSkillzy" value="Inscrições" /> Inscrições</label>
-            </div>
-            <input type="text" name="dadosSkillzyOutro" placeholder="Outro dado (especifique)" style="margin-top:10px" />
+            <label class="question" for="integracaoAtletaAluno">Atleta / Aluno — como seria essa integração?</label>
+            <textarea id="integracaoAtletaAluno" name="integracaoAtletaAluno" placeholder="Descreva como o dado de atleta/aluno precisa conversar com o My Skillzy."></textarea>
+          </div>
+
+          <div class="field">
+            <label class="question" for="integracaoProfessor">Professor — como seria essa integração?</label>
+            <textarea id="integracaoProfessor" name="integracaoProfessor" placeholder="Descreva como o dado de professor precisa conversar com o My Skillzy."></textarea>
+          </div>
+
+          <div class="field">
+            <label class="question" for="integracaoEscola">Escola — como seria essa integração?</label>
+            <textarea id="integracaoEscola" name="integracaoEscola" placeholder="Descreva como o dado de escola precisa conversar com o My Skillzy."></textarea>
+          </div>
+
+          <div class="field">
+            <label class="question" for="integracaoRanking">Ranking — como seria essa integração?</label>
+            <textarea id="integracaoRanking" name="integracaoRanking" placeholder="Descreva como ranking, avaliação técnica e histórico competitivo precisam conversar com o My Skillzy."></textarea>
+          </div>
+
+          <div class="field">
+            <label class="question" for="integracaoPagamentos">Pagamentos — como seria essa integração?</label>
+            <textarea id="integracaoPagamentos" name="integracaoPagamentos" placeholder="Descreva como pagamentos precisam conversar com o My Skillzy."></textarea>
+          </div>
+
+          <div class="field">
+            <label class="question" for="integracaoInscricoes">Inscrições — como seria essa integração?</label>
+            <textarea id="integracaoInscricoes" name="integracaoInscricoes" placeholder="Descreva como inscrições precisam conversar com o My Skillzy."></textarea>
           </div>
 
           <div class="field">
